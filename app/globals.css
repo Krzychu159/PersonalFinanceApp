@@ -1,26 +1,30 @@
 @import "tailwindcss";
 
+/* TOKENS */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Beige */
+  --beige-500: 152 144 139; /* #98908B */
+  --beige-100: 248 244 240; /* #F8F4F0 */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Grey */
+  --grey-900: 32 31 44; /* #201F24 */
+  --grey-500: 105 104 104; /* #696868 */
+  --grey-300: 179 179 179; /* #B3B3B3 */
+  --grey-100: 242 242 242; /* #F2F2F2 */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Secondary colors */
+  --green: 39 124 120; /* #277C78 */
+  --yellow: 242 205 84; /* #F2CD54 */
+  --cyan: 130 201 215; /* #82C9D7 */
+  --navy: 98 60 112; /* #626070 */
+  --red: 201 71 54; /* #C94736 */
+  --purple: 130 86 219; /* #826CB0 (uwaga: w figmie nazwane Purple, ale to jest bardziej "lavender") */
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Other colors */
+  --purple-2: 175 129 186; /* #AF81BA */
+  --turquoise: 89 124 120; /* #597C78 */
+  --brown: 147 103 79; /* #93674F */
+  --magenta: 147 71 111; /* #93476F */
+  --blue: 59 130 176; /* #3B82B0 */
+  --navy-grey: 151 160 172; /* #97A0AC */
 }
