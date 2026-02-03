@@ -1,4 +1,16 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    font-family: "Inter", sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: rgb(248 244 240);
+    color: rgb(32 31 44);
+  }
+}
 
 /* TOKENS */
 :root {
