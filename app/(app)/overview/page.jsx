@@ -1,8 +1,17 @@
 import Image from "next/image";
 import { getBalance } from "@/lib/db/overview";
+import { getPots } from "@/lib/db/pots";
+import { getTransactions } from "@/lib/db/transactions";
+import { formatDate } from "@/lib/utils/formatDate";
+import { getBudgets } from "@/lib/db/budgets";
 
 export default async function Overview() {
   const balance = await getBalance();
+  const pots = await getPots();
+  const sumOfPots = pots.reduce((acc, pot) => acc + pot.total, 0);
+  const transactions = await getTransactions();
+  const budgets = await getBudgets();
+
   const boxes = [
     {
       label: "Total Balance",
@@ -11,35 +20,7 @@ export default async function Overview() {
     { label: "Income", ammount: "$3,200" },
     { label: "Expenses", ammount: "$1,800" },
   ];
-  const pots = [
-    { label: "Vacation", ammount: "500", color: "border-blue-500" },
-    { label: "Emergency Fund", ammount: "300", color: "border-green-500" },
-    { label: "New Laptop", ammount: "400", color: "border-yellow-500" },
-  ];
-  const transactions = [
-    {
-      name: "Salary",
-      ammount: "3,000",
-      type: "income",
-      date: "2024-06-01",
-      icon: "/assets/images/avatar1.png",
-    },
-    {
-      name: "Groceries",
-      ammount: "150",
-      type: "expense",
-      date: "2024-06-02",
-      icon: "/assets/images/avatar2.png",
-    },
-    {
-      name: "Electricity Bill",
-      ammount: "100",
-      type: "expense",
 
-      date: "2024-06-03",
-      icon: "/assets/images/avatar3.png",
-    },
-  ];
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold">Overview</h1>
@@ -77,17 +58,17 @@ export default async function Overview() {
 
                 <div className="flex flex-col gap-4 p-3 h-full">
                   <p>Total Saved</p>{" "}
-                  <p className="text-3xl font-bold">$1,200</p>
+                  <p className="text-3xl font-bold">${sumOfPots}</p>
                 </div>
               </div>
               <div className="flex-1  grid grid-cols-2 gap-4 ml-4">
-                {pots.map((pot) => (
+                {pots.slice(0, 4).map((pot) => (
                   <div
-                    key={pot.label}
-                    className={`border-l-6 ${pot.color} rounded-lg px-3 py-1 flex flex-col`}
+                    key={pot.id}
+                    className={`border-l-6 ${pot.theme} rounded-lg px-3 py-1 flex flex-col`}
                   >
-                    <p className="text-sm ">{pot.label}</p>
-                    <p className="font-bold">${pot.ammount}</p>
+                    <p className="text-sm ">{pot.name}</p>
+                    <p className="font-bold">${pot.total}</p>
                   </div>
                 ))}
               </div>
@@ -102,22 +83,25 @@ export default async function Overview() {
             </div>
             <div className="mt-4">
               <ul>
-                {transactions.map((transaction) => (
+                {transactions.slice(0, 5).map((transaction) => (
                   <li
-                    key={transaction.name}
+                    key={transaction.id}
                     className="flex justify-between items-center gap-4 py-4 "
                   >
                     <div className="flex gap-5 items-center">
                       <span>
-                        <Image
-                          src={transaction.icon}
+                        <img
+                          src={
+                            transaction.avatar_url ||
+                            "/assets/images/avatar/bytewise.jpg"
+                          }
                           alt="avatar"
                           width={30}
                           height={30}
                           className="rounded-full"
                         />
                       </span>
-                      <span>{transaction.name}</span>
+                      <span>{transaction.counterparty_name}</span>
                     </div>
                     <div className="flex flex-col">
                       <span
@@ -127,10 +111,11 @@ export default async function Overview() {
                             : "text-grey-900"
                         }
                       >
-                        {transaction.type === "income" ? "+" : "-"}$
-                        {transaction.ammount}
+                        {transaction.amount}$
                       </span>
-                      <span className="text-xs">{transaction.date}</span>
+                      <span className="text-xs">
+                        {formatDate(transaction.occurred_at)}
+                      </span>
                     </div>
                   </li>
                 ))}
@@ -146,7 +131,22 @@ export default async function Overview() {
               <h2 className="text-2xl font-bold ">Budgets</h2>{" "}
               <div>See Details</div>
             </div>
-            <div>wykres</div>
+            <div className="mt-4 flex gap-6">
+              <div className="flex-7">Wykres</div>
+              <div className="flex-3  flex flex-col gap-4 text-xs">
+                {budgets.map((budget) => (
+                  <div key={budget.id} className="flex flex-col gap-1">
+                    <span className="text-gray-500">
+                      {budget.category?.name}
+                    </span>
+                    <span className="font-bold text-grey-900">
+                      {" "}
+                      ${budget.maximum}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           {/* Recurring Bills */}
           <div className="bg-white rounded-lg p-6 mb-6">
