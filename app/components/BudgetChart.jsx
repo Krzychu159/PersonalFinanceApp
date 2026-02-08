@@ -2,7 +2,7 @@
 
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from "recharts";
 
-export default function BudgetChart({ data }) {
+export default function BudgetChart({ data, total }) {
   const safe = Array.isArray(data) ? data : [];
 
   return (
@@ -20,6 +20,26 @@ export default function BudgetChart({ data }) {
               <Cell key={`cell-${index}`} fill={entry.theme || "#999999"} />
             ))}
           </Pie>
+
+          <text
+            x="50%"
+            y="48%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="fill-grey-900 text-2xl font-bold"
+          >
+            ${total}
+          </text>
+
+          <text
+            x="50%"
+            y="58%"
+            textAnchor="middle"
+            className="fill-gray-500 text-xs"
+          >
+            of ${total}
+          </text>
+
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>

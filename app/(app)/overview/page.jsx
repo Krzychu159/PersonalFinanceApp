@@ -2,10 +2,11 @@ import Image from "next/image";
 import { getBalance } from "@/lib/db/overview";
 import { getPots } from "@/lib/db/pots";
 import { getTransactions } from "@/lib/db/transactions";
-import { formatDate } from "@/lib/utils/formatDate";
 import { getBudgets } from "@/lib/db/budgets";
 import Link from "next/link";
 import BudgetChart from "../../components/BudgetChart";
+import SummaryBoxes from "./components/SummaryBoxes";
+import TransactionCard from "../../components/TransactionCard";
 
 export default async function Overview() {
   const balance = await getBalance();
@@ -19,6 +20,7 @@ export default async function Overview() {
     value: budget.maximum,
     theme: budget.theme ?? "#000000",
   }));
+  const total = data.reduce((acc, item) => acc + Number(item.value), 0);
 
   const boxes = [
     {
@@ -32,26 +34,12 @@ export default async function Overview() {
   return (
     <div className="p-2 md:p-6">
       <h1 className="text-3xl font-bold">Overview</h1>
+      <SummaryBoxes boxes={boxes} />
 
-      <div className="flex flex-col md:flex-row gap-4 mt-6">
-        {boxes.map((box, index) => (
-          <div
-            key={box.label}
-            className={`rounded-xl p-6  flex flex-col gap-2 flex-1 ${
-              index === 0 ? "bg-grey-900 text-white" : "bg-white text-grey-900"
-            }`}
-          >
-            <span className="text-sm text-gray-500">{box.label}</span>
-            <span className="text-5xl md:text-3xl font-bold">
-              {box.ammount}
-            </span>
-          </div>
-        ))}
-      </div>
-      <div className="flex flex-col md:flex-row gap-4 mt-8">
-        <div className="flex-6">
+      <div className="grid grid-cols-1 md:grid-cols-10 gap-4 mt-8">
+        <div className="md:col-span-6 flex flex-col gap-4 h-full">
           {/* Pots */}
-          <div className="bg-white rounded-lg p-6 mb-6">
+          <div className="bg-white rounded-xl p-6 mb-6">
             <div className="flex items-center justify-between">
               {" "}
               <h2 className="text-2xl font-bold ">Pots</h2>{" "}
@@ -64,7 +52,7 @@ export default async function Overview() {
               </Link>
             </div>
             <div className="flex flex-col md:flex-row items-center gap-4 justify-between   mt-4">
-              <div className="flex bg-beige-100 rounded-lg p-4 items-center gap-4 flex-1 h-full w-full ">
+              <div className="flex bg-beige-100 rounded-xl p-4 items-center gap-4 flex-1 h-full w-full ">
                 <Image
                   src="/assets/images/icon-pot.svg"
                   alt="pot icon"
@@ -93,7 +81,7 @@ export default async function Overview() {
             </div>
           </div>
           {/* Transactions */}
-          <div className="bg-white rounded-lg p-6 mb-6">
+          <div className="bg-white rounded-xl p-6 mb-6 flex-1">
             <div className="flex items-center justify-between">
               {" "}
               <h2 className="text-2xl font-bold ">Transactions</h2>{" "}
@@ -108,51 +96,18 @@ export default async function Overview() {
             <div className="mt-4">
               <ul>
                 {transactions.slice(0, 5).map((transaction) => (
-                  <li
+                  <TransactionCard
+                    transaction={transaction}
                     key={transaction.id}
-                    className="flex justify-between items-center gap-4 py-4 "
-                  >
-                    <div className="flex gap-5 items-center">
-                      <span>
-                        <img
-                          src={
-                            transaction.avatar_url ||
-                            "/assets/images/avatar/bytewise.jpg"
-                          }
-                          alt="avatar"
-                          width={40}
-                          height={40}
-                          className="rounded-full"
-                        />
-                      </span>
-                      <span className=" font-bold">
-                        {transaction.counterparty_name}
-                      </span>
-                    </div>
-                    <div className="flex flex-col  items-end gap-1">
-                      <span
-                        className={
-                          transaction.amount >= 0
-                            ? "text-green-800"
-                            : "text-grey-900"
-                        }
-                      >
-                        {transaction.amount >= 0 ? "+" : "-"}$
-                        {Math.abs(transaction.amount)}
-                      </span>
-                      <span className="text-xs text-grey-500">
-                        {formatDate(transaction.occurred_at)}
-                      </span>
-                    </div>
-                  </li>
+                  />
                 ))}
               </ul>
             </div>
           </div>
         </div>
-        <div className="flex-4">
+        <div className="md:col-span-4 flex flex-col gap-4 h-full">
           {/* Budgets */}
-          <div className="bg-white rounded-lg p-6 mb-6">
+          <div className="bg-white rounded-xl p-6 mb-6 flex-1">
             <div className="flex items-center justify-between">
               {" "}
               <h2 className="text-2xl font-bold ">Budgets</h2>{" "}
@@ -166,7 +121,7 @@ export default async function Overview() {
             </div>
             <div className=" flex flex-col sm:flex-row gap-6 items-center">
               <div className="flex-7 px-6 w-full">
-                <BudgetChart data={data} />
+                <BudgetChart data={data} total={total} />
               </div>
               <div className="grid grid-cols-2 md:grid-cols-1 gap-4 flex-3 w-full sm:px-6">
                 {budgets.map((budget) => (
@@ -188,7 +143,7 @@ export default async function Overview() {
             </div>
           </div>
           {/* Recurring Bills */}
-          <div className="bg-white rounded-lg p-6 mb-6">
+          <div className="bg-white rounded-xl p-6 mb-6">
             <div className="flex items-center justify-between">
               {" "}
               <h2 className="text-2xl font-bold ">Recurring Bills</h2>{" "}
@@ -200,7 +155,20 @@ export default async function Overview() {
                 <span className="text-[10px]">▶</span>
               </Link>
             </div>
-            <div>list</div>
+            <div className="flex flex-col gap-4 mt-6">
+              <div className="w-full flex justify-between  p-5 bg-beige-100 rounded-xl border-l-5 border-green-800">
+                <span className="text-gray-500">Paid Bills</span>
+                <span className="font-bold">$190</span>
+              </div>
+              <div className="w-full flex justify-between  p-5 bg-beige-100 rounded-xl border-l-5 border-beige-500">
+                <span className="text-gray-500">Total Upcoming</span>
+                <span className="font-bold">$190</span>
+              </div>
+              <div className="w-full flex justify-between  p-5 bg-beige-100 rounded-xl border-l-5 border-blue-400">
+                <span className="text-gray-500">Due Soon</span>
+                <span className="font-bold">$190</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

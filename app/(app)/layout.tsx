@@ -33,7 +33,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-[100dvh] flex flex-col md:flex-row">
+    <div className="min-h-dvh flex flex-col md:flex-row">
       {/* desktop */}
       <aside className="hidden md:flex md:w-64 md:border-r bg-grey-900 text-white md:flex-col items-center md:items-start gap-6 rounded-r-2xl">
         <figure className="px-8 my-8">
@@ -46,7 +46,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           />
         </figure>
 
-        <nav className="flex gap-4 md:flex-col w-full">
+        <nav className="flex gap-4 md:flex-col w-full pr-6">
           {nav.map((item) => {
             const isActive = pathname === item.href;
 
@@ -86,7 +86,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     md:hidden
     fixed
     bottom-0 left-0 right-0
-    z-[9999]
+    z-9999
     bg-grey-900
     rounded-t-2xl
     px-4 pt-3

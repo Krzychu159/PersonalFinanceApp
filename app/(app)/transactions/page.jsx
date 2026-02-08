@@ -1,38 +1,48 @@
-export default function Transactions() {
+import TransactionCard from "@/app/components/TransactionCard";
+import { getTransactions } from "@/lib/db/transactions";
+
+export default async function Transactions() {
+  const transactions = await getTransactions();
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold">Transactions</h1>
+
       <div className="bg-white rounded-lg p-6 mt-6">
-        <div className="flex">
+        <div className="flex justify-between items-center mb-4">
           <input
             type="text"
             placeholder="Search transactions..."
-            className="border border-gray-300 rounded-md p-2 w-full"
+            className=" px-6 py-3 border border-grey-900 rounded-xl max-w-sm w-full"
           />
 
-          <select name="sort" id="sort">
-            <option value="date">Latest</option>
-          </select>
-          <select name="category" id="category">
-            <option value="all">All Categories</option>
-          </select>
+          <div className="flex gap-5">
+            <div className="flex gap-2 items-center">
+              <label htmlFor="sort">Sort by</label>
+              <select
+                name="sort"
+                id="sort"
+                className="px-6 py-3 border border-grey-900 rounded-xl"
+              >
+                <option value="date">Latest</option>
+              </select>
+            </div>
+            <div className="flex gap-2 items-center">
+              <label htmlFor="category">Category</label>
+              <select
+                name="category"
+                id="category"
+                className="px-6 py-3 border border-grey-900 rounded-xl"
+              >
+                <option value="all">All Transactions</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div className="mt-6">
+        <div className="mt-4">
           <ul>
-            <li className="flex items-center justify-between py-2 border-b">
-              <div>
-                <p className="font-bold">Grocery Store</p>
-                <p className="text-sm text-gray-500">Sep 15, 2024</p>
-              </div>
-              <p className="text-red-500 font-bold">-$45.00</p>
-            </li>
-            <li className="flex items-center justify-between py-2 border-b">
-              <div>
-                <p className="font-bold">Salary</p>
-                <p className="text-sm text-gray-500">Sep 1, 2024</p>
-              </div>
-              <p className="text-green-500 font-bold">+$3,000.00</p>
-            </li>
+            {transactions.map((transaction) => (
+              <TransactionCard transaction={transaction} key={transaction.id} />
+            ))}
           </ul>
         </div>
       </div>

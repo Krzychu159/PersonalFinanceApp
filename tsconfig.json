@@ -30,7 +30,8 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "app/(auth)/login/page.jsx",
-    "app/components/BudgetChart.jsx"
+    "app/components/BudgetChart.jsx",
+    "app/(app)/layout.jsx"
   ],
   "exclude": ["node_modules"]
 }
