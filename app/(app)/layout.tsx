@@ -34,7 +34,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen md:flex">
-      <aside className="w-full border-b py-8 pr-4 md:w-64 md:border-b-0 md:border-r bg-grey-900 text-white flex md:flex-col items-center md:items-start gap-6 rounded-r-2xl">
+      {/* desktop */}
+      <aside className="hidden md:flex md:w-64 md:border-r bg-grey-900 text-white md:flex-col items-center md:items-start gap-6 rounded-r-2xl">
         <figure className="px-8 mb-8">
           <Image
             src="/assets/images/logo-large.svg"
@@ -73,7 +74,37 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </nav>
       </aside>
 
+      {/* content */}
       <main className="flex-1 p-4">{children}</main>
+
+      {/* mobile */}
+      <aside className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-grey-200">
+        <nav className="flex justify-around py-3">
+          {nav.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={clsx(
+                  "flex flex-col items-center gap-1",
+                  isActive && "text-beige-100",
+                )}
+              >
+                <Image
+                  src={item.icon}
+                  alt=""
+                  width={18}
+                  height={18}
+                  className={clsx("filter", isActive && "invert")}
+                />
+                <span className="text-xs font-bold">{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      </aside>
     </div>
   );
 }
