@@ -33,10 +33,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen md:flex">
+    <div className="min-h-[100dvh] flex flex-col md:flex-row">
       {/* desktop */}
       <aside className="hidden md:flex md:w-64 md:border-r bg-grey-900 text-white md:flex-col items-center md:items-start gap-6 rounded-r-2xl">
-        <figure className="px-8 mb-8">
+        <figure className="px-8 my-8">
           <Image
             src="/assets/images/logo-large.svg"
             alt="logo"
@@ -75,36 +75,48 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* content */}
-      <main className="flex-1 p-4">{children}</main>
+      <main className="flex-1 overflow-y-auto p-4 pb-24 md:pb-0">
+        {children}
+      </main>
 
       {/* mobile */}
-      <aside className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-grey-200">
-        <nav className="flex justify-around py-3">
-          {nav.map((item) => {
-            const isActive = pathname === item.href;
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={clsx(
-                  "flex flex-col items-center gap-1",
-                  isActive && "text-beige-100",
-                )}
-              >
-                <Image
-                  src={item.icon}
-                  alt=""
-                  width={18}
-                  height={18}
-                  className={clsx("filter", isActive && "invert")}
-                />
-                <span className="text-xs font-bold">{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
-      </aside>
+      <nav
+        className="
+    md:hidden
+    fixed
+    bottom-0 left-0 right-0
+    z-[9999]
+    bg-grey-900
+    rounded-t-2xl
+    px-4 pt-3
+    flex gap-4
+  "
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        {nav.map((item) => {
+          const isActive = pathname === item.href;
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={clsx(
+                "  rounded-t-xl  py-3   transition  px-6 ",
+                isActive && "bg-beige-100 text-grey-900",
+              )}
+            >
+              <Image
+                src={item.icon}
+                alt=""
+                width={18}
+                height={18}
+                className={clsx("filter", isActive && "invert")}
+              />
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }
