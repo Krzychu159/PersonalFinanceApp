@@ -4,7 +4,7 @@ export default function TransactionCard({ transaction }) {
   return (
     <li
       key={transaction.id}
-      className="flex justify-between items-center gap-4 py-5  border-b border-gray-200 last:border-b-0"
+      className="flex justify-between items-center gap-4 py-5  border-b border-gray-200 last:pb-0 last:border-b-0"
     >
       <div className="flex gap-5 items-center">
         <span>
