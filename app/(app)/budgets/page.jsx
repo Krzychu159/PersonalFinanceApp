@@ -39,7 +39,7 @@ export default async function Budgets() {
                     className="flex justify-between gap-4 border-l-4 px-4 w-full"
                     style={{ borderLeftColor: budget.theme }}
                   >
-                    <div className="text-gray-500 ">
+                    <div className="text-grey-500 ">
                       {budget.category?.name}
                     </div>
                     <div className="flex gap-2 items-center">
@@ -47,7 +47,7 @@ export default async function Budgets() {
                         {" "}
                         ${budget.maximum}
                       </span>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-grey-500">
                         of ${budget.maximum}
                       </span>
                     </div>
@@ -61,7 +61,7 @@ export default async function Budgets() {
           {budgets.length === 0 ? (
             <div className="bg-white rounded-lg p-6 mt-6 flex flex-col items-center gap-4">
               <h2 className="text-xl font-bold">No budgets yet</h2>
-              <p className="text-gray-500 text-center">
+              <p className="text-grey-500 text-center">
                 Start by creating a budget to track your spending and achieve
                 your financial goals.
               </p>
@@ -86,7 +86,7 @@ export default async function Budgets() {
                 </div>
 
                 <div className="mt-2">
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-grey-500">
                     Maximum of ${budget.maximum}
                   </span>
 

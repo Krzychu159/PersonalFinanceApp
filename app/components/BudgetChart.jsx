@@ -35,7 +35,7 @@ export default function BudgetChart({ data, total }) {
             x="50%"
             y="58%"
             textAnchor="middle"
-            className="fill-gray-500 text-xs"
+            className="fill-grey-500 text-xs"
           >
             of ${total}
           </text>

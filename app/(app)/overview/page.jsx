@@ -130,7 +130,7 @@ export default async function Overview() {
                     className="flex flex-col gap-1 border-l-5 px-3 "
                     style={{ borderLeftColor: budget.theme }}
                   >
-                    <span className="text-gray-500 ">
+                    <span className="text-grey-500 ">
                       {budget.category?.name}
                     </span>
                     <span className="font-bold text-grey-900">
@@ -157,15 +157,15 @@ export default async function Overview() {
             </div>
             <div className="flex flex-col gap-4 mt-6">
               <div className="w-full flex justify-between  p-5 bg-beige-100 rounded-xl border-l-5 border-green-800">
-                <span className="text-gray-500">Paid Bills</span>
+                <span className="text-grey-500">Paid Bills</span>
                 <span className="font-bold">$190</span>
               </div>
               <div className="w-full flex justify-between  p-5 bg-beige-100 rounded-xl border-l-5 border-beige-500">
-                <span className="text-gray-500">Total Upcoming</span>
+                <span className="text-grey-500">Total Upcoming</span>
                 <span className="font-bold">$190</span>
               </div>
               <div className="w-full flex justify-between  p-5 bg-beige-100 rounded-xl border-l-5 border-blue-400">
-                <span className="text-gray-500">Due Soon</span>
+                <span className="text-grey-500">Due Soon</span>
                 <span className="font-bold">$190</span>
               </div>
             </div>

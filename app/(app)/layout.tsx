@@ -56,7 +56,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 href={item.href}
                 className={clsx(
                   "flex items-center gap-4 rounded-r-xl  py-3 w-full outline-none transition  px-6 ",
-                  "hover:bg-grey-500/20 focus-visible:ring-2 focus-visible:ring-beige-100",
+                  "hover:bg-beige-100 hover:text-grey-900 focus-visible:ring-2 focus-visible:ring-beige-100",
                   isActive && "bg-beige-100 text-grey-900",
                 )}
               >

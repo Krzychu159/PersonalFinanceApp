@@ -1,4 +1,5 @@
 import { getPots } from "@/lib/db/pots";
+import Image from "next/image";
 
 export default async function Pots() {
   const pots = await getPots();
@@ -24,7 +25,13 @@ export default async function Pots() {
                   {pot.name ?? "Brak kategorii"}
                 </p>
               </div>
-              <div className="cursor-pointer p-1">...</div>
+              <Image
+                src="/assets/images/icon-ellipsis.svg"
+                alt="pot icon"
+                width={16}
+                height={16}
+                className="sm:ml-5 cursor-pointer"
+              />
             </div>
 
             <div className="flex flex-col  mt-4">
@@ -51,10 +58,10 @@ export default async function Pots() {
               </div>
             </div>
             <div className="flex gap-6">
-              <button className="mt-4 w-full bg-beige-100 text-gray-900 font-bold py-2 rounded-md">
+              <button className="mt-4 w-full bg-beige-100 text-gray-900 font-bold py-2 rounded-md hover:cursor-pointer">
                 +Add money
               </button>
-              <button className="mt-4 w-full bg-beige-100 text-gray-900 font-bold py-2 rounded-md">
+              <button className="mt-4 w-full bg-beige-100 text-gray-900 font-bold py-2 rounded-md hover:cursor-pointer">
                 Withdraw
               </button>
             </div>
