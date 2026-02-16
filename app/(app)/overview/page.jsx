@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getOverviewAugust } from "@/lib/db/overviewAugust";
 import { getBalance } from "@/lib/db/overview";
 import { getPots } from "@/lib/db/pots";
 import { getTransactions } from "@/lib/db/transactions";
@@ -9,6 +10,7 @@ import SummaryBoxes from "./components/SummaryBoxes";
 import TransactionCard from "../../components/TransactionCard";
 
 export default async function Overview() {
+  const overview = await getOverviewAugust();
   const balance = await getBalance();
   const pots = await getPots();
   const sumOfPots = pots.reduce((acc, pot) => acc + pot.total, 0);
@@ -27,8 +29,8 @@ export default async function Overview() {
       label: "Total Balance",
       ammount: balance ? `$${balance.current}` : "$0",
     },
-    { label: "Income", ammount: "$3,200" },
-    { label: "Expenses", ammount: "$1,800" },
+    { label: "Income", ammount: balance ? `$${overview.income}` : "$0" },
+    { label: "Expenses", ammount: balance ? `$${overview.expenses}` : "$0" },
   ];
 
   return (
