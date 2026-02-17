@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { getTransactions } from "@/lib/db/transactions";
-import TransactionCard from "../../components/TransactionCard";
+import BillsClient from "./BillsClient";
 
 export default async function Bills() {
   const transactions = await getTransactions();
+  const bills = transactions.filter((transaction) => transaction.recurring);
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold">Recurring Bills</h1>
@@ -42,36 +44,7 @@ export default async function Bills() {
         </div>
         <div className="flex-7">
           {/* list of bills */}
-          <div className="bg-white rounded-lg p-6 mt-6">
-            <div className="flex justify-between items-center mb-4">
-              <input
-                type="text"
-                placeholder="Search transactions..."
-                className=" px-6 py-3 border border-grey-900 rounded-xl max-w-sm w-full"
-              />
-              <div className="flex gap-2 items-center">
-                <label htmlFor="sort">Sort by</label>
-                <select
-                  name="sort"
-                  id="sort"
-                  className="px-6 py-3 border border-grey-900 rounded-xl"
-                >
-                  <option value="date">Latest</option>
-                </select>
-              </div>
-            </div>
-            <div className="mt-6">
-              {!transactions || transactions.length === 0 ? (
-                <p className="text-center text-gray-500">No bills found.</p>
-              ) : null}
-              {transactions.slice(0, 7).map((transaction) => (
-                <TransactionCard
-                  transaction={transaction}
-                  key={transaction.id}
-                />
-              ))}
-            </div>
-          </div>
+          <BillsClient bills={bills} />
         </div>
       </div>
     </div>

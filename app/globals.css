@@ -12,6 +12,10 @@
   }
 }
 
+button {
+  cursor: pointer;
+}
+
 /* TOKENS */
 :root {
   /* Beige */

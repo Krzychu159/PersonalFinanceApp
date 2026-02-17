@@ -18,7 +18,7 @@ export default async function Budgets() {
     <div className="p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Budgets</h1>
-        <button className="bg-grey-900 text-white px-4 py-2 rounded-md">
+        <button className="bg-grey-900 text-white px-4 py-2 rounded-md cursor-pointer">
           +Add new Budget
         </button>
       </div>
