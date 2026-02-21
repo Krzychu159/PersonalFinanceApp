@@ -1,13 +1,37 @@
 "use client";
-import Image from "next/image";
 
 import Link from "next/link";
 import BudgetChart from "../../components/BudgetChart";
 import TransactionCard from "../../components/TransactionCard";
 import { useState } from "react";
+import BudgetModal from "./BudgetModal";
+import Image from "next/image";
+import toast from "react-hot-toast";
+import { deleteBudget } from "@/lib/db/budgets";
+import { useRouter } from "next/navigation";
 
-export default function BudgetClient({ budgets, data, total, transactions }) {
-  const [open, setOpen] = useState("false");
+export default function BudgetClient({
+  budgets,
+  data,
+  total,
+  transactions,
+  categories,
+}) {
+  const [open, setOpen] = useState(false);
+  const [menuOpenFor, setMenuOpenFor] = useState(null);
+  const router = useRouter();
+
+  const handleDeleteBudget = async (budgetId) => {
+    if (confirm("Are you sure you want to delete this budget?")) {
+      try {
+        await deleteBudget(budgetId);
+        toast.success("Budget deleted successfully");
+        router.refresh();
+      } catch (error) {
+        toast.error("Failed to delete budget: " + error.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -81,7 +105,56 @@ export default function BudgetClient({ budgets, data, total, transactions }) {
                         {budget.category?.name ?? "Brak kategorii"}
                       </p>
                     </div>
-                    <div className="cursor-pointer p-1">...</div>
+                    <div className="relative">
+                      <button
+                        type="button"
+                        className="cursor-pointer p-1"
+                        onClick={() =>
+                          setMenuOpenFor((prev) =>
+                            prev === budget.id ? null : budget.id,
+                          )
+                        }
+                      >
+                        <Image
+                          src="/assets/images/icon-ellipsis.svg"
+                          alt="Menu"
+                          width={16}
+                          height={16}
+                        />
+                      </button>
+
+                      {menuOpenFor === budget.id && (
+                        <>
+                          {/* overlay */}
+                          <div
+                            className="fixed inset-0 z-40"
+                            onClick={() => setMenuOpenFor(null)}
+                          />
+
+                          {/* dropdown */}
+                          <div className="absolute right-0 top-8 z-50 w-44 rounded-lg bg-white shadow-lg border border-gray-100 overflow-hidden">
+                            <button
+                              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
+                              onClick={() => {
+                                setMenuOpenFor(null);
+                                toast.error("Not implemented yet");
+                              }}
+                            >
+                              Edit budget
+                            </button>
+                            <button
+                              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 text-red-600"
+                              onClick={() => {
+                                setMenuOpenFor(null);
+                                handleDeleteBudget(budget.id);
+                              }}
+                            >
+                              Delete budget
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   <div className="mt-2">
@@ -93,7 +166,7 @@ export default function BudgetClient({ budgets, data, total, transactions }) {
                       <div
                         className="h-8 rounded-lg"
                         style={{
-                          width: "75%",
+                          width: `${((budget.spent_amount / budget.maximum) * 100).toFixed(2)}%`,
                           backgroundColor: budget.theme ?? "#16a34a",
                         }}
                       />
@@ -105,12 +178,12 @@ export default function BudgetClient({ budgets, data, total, transactions }) {
                         style={{ borderLeftColor: budget.theme ?? "#16a34a" }}
                       >
                         <span>Spent</span>
-                        <span>$390</span>
+                        <span>${budget.spent_amount}</span>
                       </div>
 
                       <div className="flex flex-col gap-3 flex-1 border-l-8 border-beige-100 pr-8 px-4">
                         <span>Remaining</span>
-                        <span>$130</span>
+                        <span>${budget.maximum - budget.spent_amount}</span>
                       </div>
                     </div>
                   </div>
@@ -130,6 +203,7 @@ export default function BudgetClient({ budgets, data, total, transactions }) {
                     <div>
                       {transactions
                         .filter((t) => t.category_id === budget.category_id)
+                        .slice(0, 3)
                         .map((transaction) => (
                           <TransactionCard
                             transaction={transaction}
@@ -144,72 +218,7 @@ export default function BudgetClient({ budgets, data, total, transactions }) {
           </div>
         </div>
       </div>
-      {open && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold mb-4">Add New Budget</h2>
-              <Image
-                src="/assets/images/icon-close-modal.svg"
-                alt="Budget Icon"
-                width={24}
-                height={24}
-              />
-            </div>
-            <form className="flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <label htmlFor="category" className="text-grey-500">
-                  Category
-                </label>
-                <input
-                  type="text"
-                  id="category"
-                  className="border border-gray-300 rounded-lg px-4 py-2"
-                  placeholder="Enter category name"
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="maximum" className="text-grey-500">
-                  Maximum Amount
-                </label>
-                <input
-                  type="number"
-                  id="maximum"
-                  className="border border-gray-300 rounded-lg px-4 py-2"
-                  placeholder="Enter maximum amount"
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label htmlFor="theme" className="text-grey-500">
-                  Theme Color
-                </label>
-                <input
-                  type="color"
-                  id="theme"
-                  className="w-full h-10 border border-gray-300 rounded-lg"
-                  defaultValue="#16a34a"
-                />
-              </div>
-              <div className="flex justify-end gap-4 mt-4">
-                <button
-                  type="button"
-                  className="text-grey-500 px-4 py-2 rounded-md border border-grey-500"
-                  onClick={() => setOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-grey-900 text-white px-4 py-2 rounded-md"
-                >
-                  {" "}
-                  Add Budget
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <BudgetModal open={open} setOpen={setOpen} categories={categories} />
     </>
   );
 }

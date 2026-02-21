@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Public_Sans } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const publicSans = Public_Sans({
   subsets: ["latin"],
@@ -14,7 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html className={publicSans.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster position="top-right" />
+      </body>
     </html>
   );
 }

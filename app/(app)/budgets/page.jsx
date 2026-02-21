@@ -1,12 +1,11 @@
 import { getBudgets } from "@/lib/db/budgets";
 import { getTransactions } from "@/lib/db/transactions";
-import BudgetChart from "../../components/BudgetChart";
-import Link from "next/link";
-import TransactionCard from "../../components/TransactionCard";
 import BudgetClient from "./BudgetClient";
+import { getCategories } from "@/lib/db/categories";
 
 export default async function Budgets() {
   const transactions = await getTransactions();
+  const categories = await getCategories();
 
   const budgets = await getBudgets();
   const data = budgets.map((budget) => ({
@@ -21,6 +20,7 @@ export default async function Budgets() {
       data={data}
       total={total}
       transactions={transactions}
+      categories={categories}
     />
   );
 }
