@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+💰 Personal Finance App — Fullstack Finance Manager
 
-## Getting Started
+Live: [DEMO
+](https://personal-finance-app-omega-two.vercel.app/overview)
 
-First, run the development server:
+🚀 Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Personal Finance App is a modern full-stack financial management application built with Next.js, Tailwind CSS, and Supabase (PostgreSQL).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app allows users to manage personal finances through transaction tracking, budgeting, savings goals, and recurring bills — all within a clean, responsive dashboard interface.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Designed as a portfolio-ready MVP demonstrating real-world fullstack architecture and financial data handling.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<img width="1897" height="901" alt="{4AA40DDC-33EE-4472-8B0C-148587456487}" src="https://github.com/user-attachments/assets/740749c8-8808-4d2b-9259-b2649ed4875e" />
+<img width="1892" height="905" alt="{CE0717A9-E80D-4911-8D0D-C580EFDBE6D3}" src="https://github.com/user-attachments/assets/c5ab1827-66c3-49b7-916c-f10c50dcb4db" />
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+✨ Key Features
+📊 Dashboard Overview
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Current balance calculation
 
-## Deploy on Vercel
+Income & expenses summary
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Financial overview cards
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+💸 Transactions
+
+Categorized transaction management
+
+Income vs expense logic
+
+Structured financial history
+
+📂 Budgets
+
+Custom spending limits
+
+Visual progress indicators
+
+Remaining vs spent balance tracking
+
+🏦 Savings Pots
+
+Create financial goals
+
+Add & withdraw money
+
+Target-based completion progress
+
+🔁 Recurring Bills
+
+Recurring transaction grouping
+
+Upcoming payment logic
+
+Vendor-based tracking
+
+🎨 UI / UX
+
+Fully responsive design
+
+Clean dashboard layout
+
+Tailwind CSS styling
+
+Toast notifications & modal interactions
+
+🧠 Tech Stack
+Layer	Technologies
+Frontend	Next.js (App Router), React
+Backend	Supabase (Auth + PostgreSQL)
+Styling	Tailwind CSS
+Deployment	Vercel
+🎯 Purpose
+
+This project demonstrates:
+
+Full-stack architecture with Supabase
+
+Database-driven financial logic
+
+Production-style Next.js App Router structure
+
+Clean UI implementation with Tailwind CSS
+
+Real-world financial state management
